@@ -10,6 +10,15 @@
 (defn update-count [app]
   (om/transact! app [:count] inc))
 
+(add-watch app-state
+           :history
+           (fn [key rf old new]
+             (println old new history)
+             (swap! history old (conj old new))))
+
+(defn undo! [e]
+  (js/console.log "undo!"))
+
 (defn counter [app owner]
   (reify
     om/IRender
@@ -18,7 +27,11 @@
                (dom/p nil (str "Count: " (:count app)))
                (dom/button
                 #js {:onClick (fn [e] (update-count app))}
-                "Click me!")))))
+                "Click me!")
+               (dom/button
+                #js {:onClick undo!}
+                "Undo")
+               ))))
 
 (om.core/root
  counter
