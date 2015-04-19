@@ -1,0 +1,9 @@
+- transpilers
+- introduction of es2015
+- sourcemap support
+- persistent data structures allow trivial undo
+
+** Alternatives
+
+- Quiescent
+- Reagent

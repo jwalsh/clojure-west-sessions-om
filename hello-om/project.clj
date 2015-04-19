@@ -1,6 +1,6 @@
 (defproject hello-om "0.1.0-SNAPSHOT"
-  :description "FIXME: write this!"
-  :url "http://example.com/FIXME"
+  :description "Clojure/West Sessions: Om"
+  :url "http://wal.sh/conferences"
 
   :dependencies [[org.clojure/clojure "1.7.0-beta1"]
                  [org.clojure/clojurescript "0.0-3208"]
