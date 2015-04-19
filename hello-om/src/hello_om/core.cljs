@@ -4,45 +4,23 @@
 
 (enable-console-print!)
 
-(def app-state
-  (atom {
-         :text "Hello World!"
-         :body "Clojure/West 2015"
-         :server-url ""
-         :server-data-cache ""
-         }))
+(def app-state (atom {:count 0}))
+(def history (atom [@app-state] ))
 
-(def h1-styles {:color "#69c"
-              :backgroundColor "#ccc"})
-(om/root
- (fn [app owner]
-   (reify om/IRender
-     (render [_]
-       (println (pr-str app owner))
-       (js/console.log owner)
-       (dom/h1
-        nil
-        (:body app)))))
+(defn update-count [app]
+  (om/transact! app [:count] inc))
+
+(defn counter [app owner]
+  (reify
+    om/IRender
+    (render [_]
+      (dom/div nil
+               (dom/p nil (str "Count: " (:count app)))
+               (dom/button
+                #js {:onClick (fn [e] (update-count app))}
+                "Click me!")))))
+
+(om.core/root
+ counter
  app-state
  {:target (js/document.getElementById "app")})
-
-(defn simple-widget [data owner]
-  (reify
-    om/IRender
-    (render [_]
-      (dom/h1 nil "Hello world!"))))
-
-(defn jw-widget [data owner]
-  (reify
-    om/IRender
-    (render [_]
-      (dom/h2 nil (:text app-state)))))
-
-(defn my-widget [data owner]
-  (reify
-    om/IInitState
-    (init-state [_]
-      {:text "Hello world!"})
-    om/IRenderState
-    (render-state [_ state]
-      (dom/h1 nil (:text state)))))
